@@ -1,6 +1,19 @@
 (function() {
   var app = angular.module('gemStore', []);
 
+  app.controller('GalleryController',function(){
+  	this.current = 0;
+    
+    this.setCurrent = function(setNum){
+      if(setNum){
+        this.current = setNum;
+      } else {
+      	this.current = 0;
+      }
+      //this.current = setNum||0;
+    };
+  });
+
   app.controller('StoreController', function(){
     this.products = gems;
   });
