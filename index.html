@@ -5,14 +5,21 @@
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
   </head>
+
   <body ng-controller="StoreController as store">
+    <!--  Store Header  -->
     <header>
       <h1 class="text-center">Flatlander Crafted Gems</h1>
       <h2 class="text-center">– an Angular store –</h2>
     </header>
+
+    <!--  Products Container  -->
     <div class="list-group">
+      <!--  Product Container  -->
       <div class="list-group-item" ng-repeat="product in store.products">
         <h3>{{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3>
+
+        <!-- Image Gallery  -->
         <div ng-controller="GalleryController as gallery"  ng-show="product.images.length">
           <div class="img-wrap">
             <img ng-src="{{product.images[gallery.current]}}" />
@@ -23,26 +30,44 @@
             </li>
           </ul>
         </div>
+
+        <!-- Product Tabs  -->
         <section ng-controller="TabController as tab">
           <ul class="nav nav-pills">
             <li ng-class="{ active:tab.isSet(1) }">
-              <a href="" ng-click="tab.setTab(1)">Description</a>
+              <a href ng-click="tab.setTab(1)">Description</a>
             </li>
             <li ng-class="{ active:tab.isSet(2) }">
-              <a href="" ng-click="tab.setTab(2)">Specs</a>
+              <a href ng-click="tab.setTab(2)">Specs</a>
             </li>
             <li ng-class="{ active:tab.isSet(3) }">
-              <a href="" ng-click="tab.setTab(3)">Reviews</a>
+              <a href ng-click="tab.setTab(3)">Reviews</a>
             </li>
           </ul>
-          <div ng-show="tab.isSet(1)">
-            <h4>Description</h4>
-            <blockquote>{{product.description}}</blockquote>
+
+          <!--  Description Tab's Content  -->
+          <div ng-show="tab.isSet(1)" ng-include="'product-description.html'">
           </div>
+          <!--  Spec Tab's Content  -->
           <div ng-show="tab.isSet(2)">
             <h4>Specs</h4>
-            <blockquote>Shine: {{product.shine}}</blockquote>
+            <ul class="list-unstyled">
+              <li>
+                <strong>Shine</strong>
+                : {{product.shine}}</li>
+              <li>
+                <strong>Faces</strong>
+                : {{product.faces}}</li>
+              <li>
+                <strong>Rarity</strong>
+                : {{product.rarity}}</li>
+              <li>
+                <strong>Color</strong>
+                : {{product.color}}</li>
+            </ul>
           </div>
+
+          <!--  Review Tab's Content  -->
           <div ng-show="tab.isSet(3)">
             <!--  Product Reviews List -->
             <ul>
@@ -53,14 +78,14 @@
                   {{review.body}}
                   <cite class="clearfix">—{{review.author}}</cite>
                 </blockquote>
-              </li>
+              </li>  
             </ul>
 
             <!--  Review Form -->
             <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewCtrl.addReview(product)">
 
               <!--  Live Preview -->
-              <blockquote>
+              <blockquote >
                 <strong>{{reviewCtrl.review.stars}} Stars</strong>
                 {{reviewCtrl.review.body}}
                 <cite class="clearfix">—{{reviewCtrl.review.author}}</cite>
@@ -70,7 +95,7 @@
               <h4>Submit a Review</h4>
               <fieldset class="form-group">
                 <select ng-model="reviewCtrl.review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
-                  <option value="">Rate the Product</option>
+                  <option value>Rate the Product</option>
                 </select>
               </fieldset>
               <fieldset class="form-group">
@@ -84,8 +109,10 @@
               </fieldset>
             </form>
           </div>
+
         </section>
       </div>
+
     </div>
   </body>
 </html>
